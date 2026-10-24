@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeadDrop - Opção 3: Burn-Notice Efêmero</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            flame: {
+              500: '#ef4444',
+              600: '#dc2626',
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#050505] text-neutral-200 font-sans min-h-screen flex flex-col items-center justify-between p-4 selection:bg-red-500/30 selection:text-red-300">
+
+  <!-- Header -->
+  <header class="w-full max-w-2xl flex items-center justify-between py-6">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-red-950/60 border border-red-800/40 flex items-center justify-center text-red-500 text-lg">
+        🔥
+      </div>
+      <h1 class="text-base font-bold tracking-tight text-white uppercase font-mono">DeadDrop</h1>
+    </div>
+    <div class="text-xs font-mono text-red-400 bg-red-950/30 border border-red-900/50 px-3 py-1 rounded">
+      BURN AFTER READING
+    </div>
+  </header>
+
+  <!-- Central Card -->
+  <main class="w-full max-w-xl my-auto py-4">
+    <div class="bg-[#0f0f11] border border-neutral-800 rounded-xl p-6 shadow-2xl relative">
+      
+      <!-- Warning Ribbon -->
+      <div class="mb-4 flex items-center gap-2 text-xs font-mono text-amber-300 bg-amber-950/20 border border-amber-900/30 px-3 py-2 rounded-lg">
+        <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <span>O conteúdo é destruído irreversivelmente da memória na 1ª leitura.</span>
+      </div>
+
+      <!-- Textarea -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-mono text-neutral-400">Mensagem Secreta</label>
+        <textarea rows="7" placeholder="Escreva a nota que deve se autodestruir após ser lida..." class="w-full bg-[#070708] border border-neutral-800 rounded-lg p-4 font-mono text-sm text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-red-500/60 transition resize-none"></textarea>
+      </div>
+
+      <!-- Settings -->
+      <div class="mt-4 flex flex-col sm:flex-row gap-3">
+        <div class="flex-1">
+          <label class="block text-[11px] font-mono text-neutral-400 mb-1">Destruir após</label>
+          <select class="w-full bg-[#070708] border border-neutral-800 text-xs font-mono text-neutral-200 rounded p-2 focus:outline-none focus:border-red-500">
+            <option>1 leitura (Incinerar imediatamente)</option>
+            <option>1 hora (ou 1 leitura)</option>
+            <option>24 horas (ou 1 leitura)</option>
+          </select>
+        </div>
+        <div class="flex-1">
+          <label class="block text-[11px] font-mono text-neutral-400 mb-1">Senha (opcional)</label>
+          <input type="password" placeholder="Proteger com senha" class="w-full bg-[#070708] border border-neutral-800 text-xs font-mono text-neutral-200 rounded p-2 focus:outline-none focus:border-red-500 placeholder-neutral-600">
+        </div>
+      </div>
+
+      <!-- Button -->
+      <button class="w-full mt-6 bg-red-600 hover:bg-red-500 text-white font-mono font-semibold py-3 px-4 rounded-lg transition duration-150 flex items-center justify-center gap-2 active:scale-[0.99] shadow-lg shadow-red-900/30">
+        <span>Criar Nota Autodestrutível</span>
+        <span>→</span>
+      </button>
+
+      <!-- Receiver preview simulation -->
+      <div class="mt-6 pt-4 border-t border-neutral-800/80">
+        <p class="text-[11px] font-mono text-neutral-500 mb-2">Visão do Destinatário ao abrir:</p>
+        <div class="p-3 bg-red-950/10 border border-red-900/30 rounded-lg flex items-center justify-between text-xs font-mono">
+          <span class="text-neutral-400">Você recebeu uma nota confidencial.</span>
+          <span class="text-red-400 font-bold">[Revelar & Queimar]</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full max-w-2xl py-4 text-center text-xs font-mono text-neutral-600">
+    ENIAC 2026 • Distributed & Secure Solutions • Zero-Knowledge
+  </footer>
+
+</body>
+</html>

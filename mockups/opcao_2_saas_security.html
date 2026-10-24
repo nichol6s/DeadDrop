@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeadDrop - Opção 2: SaaS Corporativo de Segurança</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#4f46e5',
+              600: '#4338ca',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans min-h-screen flex flex-col items-center justify-between p-4 selection:bg-indigo-500/30 selection:text-indigo-200">
+
+  <!-- Header -->
+  <header class="w-full max-w-4xl flex items-center justify-between py-6">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+      </div>
+      <div>
+        <h1 class="text-base font-semibold text-white tracking-tight">DeadDrop Security Vault</h1>
+        <p class="text-xs text-slate-400">Proteção de Dados Efêmeros Corporativos</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+        Zero-Knowledge Validado
+      </span>
+    </div>
+  </header>
+
+  <!-- Central Card -->
+  <main class="w-full max-w-xl my-auto py-6">
+    <div class="bg-[#131b2e] border border-slate-800/90 rounded-2xl shadow-xl p-6 md:p-8">
+      
+      <!-- Type Switcher (Tabs) -->
+      <div class="flex p-1 bg-[#0b0f19] rounded-xl border border-slate-800 mb-6">
+        <button class="flex-1 py-2 text-xs font-medium rounded-lg bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Texto / Credencial
+        </button>
+        <button class="flex-1 py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-slate-200 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+          Arquivo Confidencial
+        </button>
+      </div>
+
+      <!-- Textarea -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center text-xs">
+          <label class="text-slate-300 font-medium">Conteúdo Confidencial</label>
+          <span class="text-slate-500">Criptografado com AES-GCM 256 bits</span>
+        </div>
+        <textarea rows="5" placeholder="Digite senhas, códigos de recuperação ou documentos confidenciais..." class="w-full bg-[#0b0f19] border border-slate-700/80 rounded-xl p-3.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none"></textarea>
+      </div>
+
+      <!-- Settings Accordion / Grid -->
+      <div class="mt-5 space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5">Política de Expiração</label>
+          <select class="w-full bg-[#0b0f19] border border-slate-700/80 text-xs text-slate-300 rounded-lg p-2.5 focus:outline-none focus:border-indigo-500">
+            <option>Destruição imediata após 1 leitura (Recomendado)</option>
+            <option>Expira em 1 hora</option>
+            <option>Expira em 24 horas</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5">Senha Adicional (Opcional)</label>
+          <input type="password" placeholder="Exige que o destinatário informe esta senha para abrir" class="w-full bg-[#0b0f19] border border-slate-700/80 text-xs text-slate-300 rounded-lg p-2.5 focus:outline-none focus:border-indigo-500 placeholder-slate-500">
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="w-full mt-6 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-medium py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <span>Criar Link Seguro de Uso Único</span>
+      </button>
+
+      <!-- Security Notice -->
+      <div class="mt-5 p-3 rounded-lg bg-indigo-950/30 border border-indigo-900/40 flex items-start gap-2.5 text-xs text-indigo-300/90 leading-relaxed">
+        <svg class="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>A chave de decifragem é gerada localmente e reside apenas no fragmento da URL. Nossos servidores nunca têm acesso à chave ou ao conteúdo limpo.</span>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full max-w-4xl py-4 text-center text-xs text-slate-500">
+    Centro Universitário ENIAC • Engenharia de Software • Projeto Integrador Módulo 6
+  </footer>
+
+</body>
+</html>

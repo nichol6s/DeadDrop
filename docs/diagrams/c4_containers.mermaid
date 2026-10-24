@@ -1,0 +1,24 @@
+graph TD
+    User["👤 Usuário Remetente / Destinatário"]
+    
+    subgraph ClientSide ["Dispositivo do Usuário (Navegador Web)"]
+        UI["🖥️ Frontend Web Responsivo<br/><b>Next.js 14 + Tailwind CSS</b><br/>Interface Dev-Cyber"]
+        CryptoEngine["🔐 Módulo Criptográfico<br/><b>Web Crypto API (AES-GCM 256 bits)</b><br/>Gera chaves e cifra/decifra localmente"]
+        URLFragment["🔗 Fragmento da URL (#chave)<br/>A chave nunca trafega via HTTP"]
+    end
+
+    subgraph BackendSide ["Camada de Serviços Distribuídos (Servidor)"]
+        API["⚙️ API REST Cega<br/><b>Java 17 + Spring Boot 3</b><br/>Gestão de UUIDs e expurgo atômico"]
+    end
+
+    subgraph StorageSide ["Armazenamento Efêmero"]
+        RedisMemory["⚡ Cache em Memória Volátil<br/><b>Redis 7 (In-Memory)</b><br/>Chave-Valor com TTL e comando atômico GETDEL"]
+    end
+
+    User -->|"Interage via UI"| UI
+    UI -->|"Aciona cifragem/decifragem"| CryptoEngine
+    CryptoEngine -.->|"Anexa chave na hashtag"| URLFragment
+    UI -->|"Envia APENAS payload cifrado e IV (POST /api/secrets)"| API
+    UI -->|"Solicita queima e resgate (GET /api/secrets/{id})"| API
+    API -->|"Grava payload com TTL (SETEX)"| RedisMemory
+    API -->|"Executa leitura e destruição instantânea (GETDEL)"| RedisMemory

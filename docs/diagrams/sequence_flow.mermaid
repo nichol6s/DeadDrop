@@ -1,0 +1,40 @@
+sequenceDiagram
+    autonumber
+    actor Remetente as 👤 Remetente
+    participant BrowserA as 🖥️ Navegador (Web Crypto)
+    participant API as ⚙️ Spring Boot API
+    participant Redis as ⚡ Redis (Memória)
+    actor Destinatario as 👤 Destinatário
+    participant BrowserB as 🖥️ Navegador Destinatário
+
+    %% Criação
+    Remetente->>BrowserA: Insere segredo confidencial e seleciona TTL
+    Note over BrowserA: 1. Gera chave efêmera AES-256-GCM<br/>2. Gera IV aleatório de 12 bytes<br/>3. Cifra o conteúdo localmente
+    BrowserA->>API: POST /api/secrets { encryptedPayload, iv, ttlSeconds }
+    API->>Redis: SET secret:{uuid} {payload, iv} EX ttl
+    Redis-->>API: OK
+    API-->>BrowserA: Retorna { id: uuid }
+    Note over BrowserA: Monta URL: https://deaddrop.dev/secret/{uuid}#{chaveBase64}
+    BrowserA-->>Remetente: Link copiado com sucesso!
+
+    %% Envio seguro do link
+    Remetente-)Destinatario: Envia o link com o fragmento #chave
+
+    %% Resgate e Queima
+    Destinatario->>BrowserB: Abre link no navegador
+    Note over BrowserB: Lê #{chaveBase64} do hash local (RFC 3986)<br/>Exibe alerta: "Ler irá incinerar o dado"
+    Destinatario->>BrowserB: Clica em [Revelar e Queimar]
+    BrowserB->>API: GET /api/secrets/{uuid}
+    API->>Redis: GETDEL secret:{uuid} (Operação Atômica)
+    Redis-->>API: Retorna {payload, iv} e deleta na RAM
+    API-->>BrowserB: HTTP 200 { encryptedPayload, iv }
+    Note over BrowserB: Decifra conteúdo localmente com a chave do hash
+    BrowserB-->>Destinatario: Exibe texto confidencial decifrado
+
+    %% Tentativa subsequente
+    Note over Destinatario,API: Qualquer tentativa de acesso posterior
+    Destinatario->>BrowserB: Recarrega a página ou novo acesso
+    BrowserB->>API: GET /api/secrets/{uuid}
+    API->>Redis: GETDEL secret:{uuid}
+    Redis-->>API: (nil / não encontrado)
+    API-->>BrowserB: HTTP 404 (Segredo já incinerado ou expirado)
