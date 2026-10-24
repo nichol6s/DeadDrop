@@ -135,13 +135,12 @@ O frontend foi desenvolvido sob a estética **Dev-Cyber**, projetada para desenv
 │   │   └── crypto.test.mjs        # Testes de integridade da criptografia no cliente
 │   └── package.json               # Dependências do frontend
 │
-├── docs/                          # Documentação e especificações de engenharia
-│   ├── diagrams/                  # Diagramas C4 e de Sequência em Mermaid
-│   └── superpowers/               # Especificações formais e planos de sprint
+├── docs/                          # Documentação e diagramas
+│   └── diagrams/                  # Diagramas C4 e de Sequência em Mermaid
 │
 ├── docker-compose.yml             # Orquestração do serviço Redis 7 em memória
-├── Sprint_1_DeadDrop_ENIAC.md     # Documentação da Sprint 1 (Nota Máxima)
-└── Sprint_2_DeadDrop_ENIAC.md     # Documentação da Sprint 2 (Desenvolvimento & Metodologia)
+├── .env.example                   # Exemplo de variáveis de ambiente
+└── README.md                      # Documentação completa do projeto
 ```
 
 ---

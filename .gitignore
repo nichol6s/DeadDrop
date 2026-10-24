@@ -38,5 +38,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Superpowers temporary workspace
-.superpowers/sdd/
+# Superpowers and Specs
+.superpowers/
+docs/superpowers/
+
+# Academic Sprint Delivery Files and Scripts (kept locally)
+Sprint*
+*.docx
+*.pdf
+build_sprint_2_docx.py
+
+# Mockups (kept locally)
+mockups/
