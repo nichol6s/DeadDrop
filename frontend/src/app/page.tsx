@@ -47,8 +47,8 @@ export default function HomePage() {
       const secretUrl = `${origin}/secret/${data.id}#${keyBase64}`;
       setGeneratedLink(secretUrl);
       setPlaintext(''); // Limpa o texto da memória da tela
-    } catch (err: any) {
-      setError(err.message || 'Erro ao criar DeadDrop.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao criar DeadDrop.');
     } finally {
       setLoading(false);
     }

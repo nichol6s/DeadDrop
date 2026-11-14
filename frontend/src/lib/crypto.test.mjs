@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { encryptSecret, decryptSecret } from './crypto.js';
+import { encryptSecret, decryptSecret } from './crypto.ts';
 
 test('encryptSecret and decryptSecret roundtrip with AES-256-GCM', async () => {
-  const secretText = 'DATABASE_URL=postgres://user:super_secret@cluster:5432/prod\nAPI_KEY=live_sk_991828\nPORT=8080';
+  const secretText = 'DATABASE_URL=postgres://user:example@localhost:5432/dev\nMENSAGEM=Olá, ação 🔐\nPORT=8080';
   
   const encrypted = await encryptSecret(secretText);
   
@@ -21,7 +21,9 @@ test('decryptSecret fails with authentication tag error when ciphertext is tampe
   const encrypted = await encryptSecret(secretText);
   
   // Tamper ciphertext
-  const tamperedCiphertext = 'A' + encrypted.ciphertext.substring(1);
+  const bytes = Buffer.from(encrypted.ciphertext, 'base64');
+  bytes[0] ^= 1;
+  const tamperedCiphertext = bytes.toString('base64');
   
   await assert.rejects(
     async () => {

@@ -3,8 +3,9 @@ package com.eniac.deaddrop.service;
 import com.eniac.deaddrop.dto.SecretCreateRequest;
 import com.eniac.deaddrop.dto.SecretCreateResponse;
 import com.eniac.deaddrop.dto.SecretPayloadResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class SecretService {
 
     public SecretService(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = JsonMapper.builder().build();
     }
 
     public SecretCreateResponse createSecret(SecretCreateRequest request) {
@@ -33,7 +34,7 @@ public class SecretService {
             String jsonValue = objectMapper.writeValueAsString(payload);
             redisTemplate.opsForValue().set(redisKey, jsonValue, request.ttlSeconds(), TimeUnit.SECONDS);
             return new SecretCreateResponse(id);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed to serialize secret payload", e);
         }
     }
@@ -49,7 +50,7 @@ public class SecretService {
         try {
             SecretPayloadResponse payload = objectMapper.readValue(rawJson, SecretPayloadResponse.class);
             return Optional.of(payload);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             return Optional.empty();
         }
     }

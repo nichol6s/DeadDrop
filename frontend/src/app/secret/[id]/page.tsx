@@ -1,33 +1,37 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { decryptSecret } from '@/lib/crypto';
+
+function subscribeToFragment(onChange: () => void) {
+  window.addEventListener('hashchange', onChange);
+  return () => window.removeEventListener('hashchange', onChange);
+}
+
+function getFragment() {
+  return window.location.hash.replace(/^#/, '');
+}
+
+function getServerFragment(): string | null {
+  return null;
+}
 
 export default function SecretRevealPage() {
   const params = useParams();
   const secretId = params.id as string;
 
-  const [keyBase64, setKeyBase64] = useState<string | null>(null);
+  const keyBase64 = useSyncExternalStore(subscribeToFragment, getFragment, getServerFragment);
   const [decryptedText, setDecryptedText] = useState<string | null>(null);
-  const [burned, setBurned] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [requestError, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const error = requestError ?? (keyBase64 === ''
+    ? 'Chave de decifragem ausente no fragmento da URL (#). O link fornecido é incompleto ou inválido.'
+    : null);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-
-  useEffect(() => {
-    // 1. Extração segura da chave exclusivamente do fragmento '#'
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.replace(/^#/, '');
-      if (hash) {
-        setKeyBase64(hash);
-      } else {
-        setError('Chave de decifragem ausente no fragmento da URL (#). O link fornecido é incompleto ou inválido.');
-      }
-    }
-  }, []);
 
   const handleRevealAndBurn = async () => {
     if (!keyBase64) return;
@@ -39,7 +43,6 @@ export default function SecretRevealPage() {
       const res = await fetch(`${apiUrl}/api/secrets/${secretId}`);
 
       if (res.status === 404) {
-        setBurned(true);
         setError('Este segredo já foi lido e incinerado da memória, ou seu tempo limite expirou.');
         return;
       }
@@ -53,9 +56,8 @@ export default function SecretRevealPage() {
       // 3. Decifragem local no navegador utilizando a chave da URL
       const plaintext = await decryptSecret(data.encryptedPayload, data.iv, keyBase64);
       setDecryptedText(plaintext);
-      setBurned(true); // Confirmação visual de que o dado foi destruído no servidor
-    } catch (err: any) {
-      setError(err.message || 'Erro durante a decifragem do segredo.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro durante a decifragem do segredo.');
     } finally {
       setLoading(false);
     }
@@ -127,12 +129,12 @@ export default function SecretRevealPage() {
                 {copied ? 'Copiado para Área de Transferência!' : 'Copiar Conteúdo'}
               </button>
 
-              <a
+              <Link
                 href="/"
                 className="text-xs font-mono text-slate-400 hover:text-white underline"
               >
                 Criar um Novo DeadDrop
-              </a>
+              </Link>
             </div>
           </div>
         )}
@@ -144,12 +146,12 @@ export default function SecretRevealPage() {
             <h2 className="text-sm font-semibold font-mono text-red-400">Segredo Inacessível</h2>
             <p className="text-xs font-mono text-slate-400 max-w-md mx-auto leading-relaxed">{error}</p>
             <div className="pt-2">
-              <a
+              <Link
                 href="/"
                 className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono rounded-lg transition"
               >
                 Voltar ao Início
-              </a>
+              </Link>
             </div>
           </div>
         )}

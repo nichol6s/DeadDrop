@@ -1,13 +1,24 @@
 # 🔐 DeadDrop
 
 > **Plataforma Distribuída de Compartilhamento Seguro e Efêmero de Informações Sensíveis baseada em Arquitetura Zero-Knowledge e Burn-After-Reading.**
+>
+> **Status: em andamento.** A Sprint 2 documenta a arquitetura e o protótipo em desenvolvimento. Ainda há ajustes e integração a concluir, testes a executar e resultados a registrar na Sprint 3. O projeto não está finalizado nem validado para entrega.
 
 [![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Next.js](https://img.shields.io/badge/Next.js-16.4.3-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
 [![Security](https://img.shields.io/badge/Crypto-AES--256--GCM-10B981?style=for-the-badge&logo=shield&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+
+---
+
+## 📚 Guias de execução e testes
+
+- [Frontend: estrutura, configuração e execução](frontend/README.md)
+- [Backend: API, configuração, execução e testes](backend/README.md)
+- [Roteiro completo: Docker, Redis, API e navegador](docs/testing.md)
+- [Origem das bases e resultados da migração](docs/project-setup.md)
 
 ---
 
@@ -15,7 +26,7 @@
 
 No ambiente corporativo e em equipes de engenharia de software, é frequente a necessidade de compartilhar credenciais temporárias, chaves de API, variáveis de ambiente (`.env`) ou certificados digitais. Frequentemente, esses dados são enviados por canais persistentes (Slack, Microsoft Teams, WhatsApp ou e-mail), onde permanecem indelevelmente registrados no histórico, vulneráveis a vazamentos e em desacordo com a **LGPD** (_Lei Geral de Proteção de Dados_).
 
-O **DeadDrop** foi desenvolvido para solucionar esse problema através de uma abordagem minimalista e matematicamente segura:
+O **DeadDrop** está sendo desenvolvido para tratar esse problema por meio de uma abordagem minimalista:
 
 - **Zero-Knowledge (Servidor Cego):** O dado é cifrado no navegador do remetente com **AES-GCM de 256 bits** antes de qualquer transmissão. O servidor nunca tem acesso ao texto limpo e nem à chave de decifragem.
 - **Isolamento de Chaves pela RFC 3986:** A chave simétrica é inserida exclusivamente no fragmento da URL (`https://.../secret/{uuid}#chave`). Conforme a especificação padrão da web, navegadores **nunca** transmitem o fragmento `#` nas requisições HTTP.
@@ -33,13 +44,13 @@ graph TD
     User["👤 Usuário Remetente / Destinatário"]
 
     subgraph ClientSide ["Dispositivo do Usuário (Navegador Web)"]
-        UI["🖥️ Frontend Web Responsivo<br/><b>Next.js 14 + Tailwind CSS</b><br/>Interface Dev-Cyber"]
+        UI["🖥️ Frontend Web Responsivo<br/><b>Next.js 16 + Tailwind CSS</b><br/>Interface Dev-Cyber"]
         CryptoEngine["🔐 Módulo Criptográfico<br/><b>Web Crypto API (AES-GCM 256 bits)</b><br/>Gera chaves e cifra/decifra localmente"]
         URLFragment["🔗 Fragmento da URL (#chave)<br/>A chave nunca trafega via HTTP (RFC 3986)"]
     end
 
     subgraph BackendSide ["Camada de Serviços Distribuídos (Servidor)"]
-        API["⚙️ API REST Cega<br/><b>Java 17 + Spring Boot 3</b><br/>Gestão de UUIDs e expurgo atômico"]
+        API["⚙️ API REST Cega<br/><b>Java 17 + Spring Boot 4</b><br/>Gestão de UUIDs e expurgo atômico"]
     end
 
     subgraph StorageSide ["Armazenamento Efêmero"]
@@ -121,16 +132,16 @@ O frontend foi desenvolvido sob a estética **Dev-Cyber**, projetada para desenv
 ## 📁 Estrutura de Diretórios
 
 ```text
-├── backend/                       # API REST em Java 17 + Spring Boot 3
+├── backend/                       # API REST em Java 17 + Spring Boot 4
 │   ├── src/main/java/             # Código-fonte da aplicação
 │   │   └── com/eniac/deaddrop/
 │   │       ├── controller/        # SecretController (endpoints POST e GET)
 │   │       ├── dto/               # Records imutáveis de entrada/saída
 │   │       └── service/           # SecretService com integração atômica Redis (GETDEL)
-│   ├── src/test/java/             # Testes automatizados (JUnit 5 + Mockito)
+│   ├── src/test/java/             # Testes automatizados (JUnit + Mockito)
 │   └── pom.xml                    # Configuração Maven do projeto
 │
-├── frontend/                      # Aplicação Web em Next.js 14 + Tailwind CSS
+├── frontend/                      # Aplicação Web em Next.js 16 + Tailwind CSS
 │   ├── src/app/                   # App Router do Next.js
 │   │   ├── page.tsx               # Tela principal de criação de DeadDrop
 │   │   └── secret/[id]/page.tsx   # Tela de revelação, queima e decifragem local
@@ -151,10 +162,13 @@ O frontend foi desenvolvido sob a estética **Dev-Cyber**, projetada para desenv
 
 ## 🚀 Como Executar o Projeto Localmente
 
+A estrutura foi migrada para bases oficiais do `create-next-app` e do Spring Initializr. Consulte [configuração e validação](docs/project-setup.md) para os comandos de geração, build, lint e integração com Redis. Os comandos Maven abaixo são para PowerShell/Windows; em Linux/macOS, use `sh mvnw`.
+
+
 ### Pré-requisitos
 
 - **Java Development Kit (JDK):** Versão 17 ou superior.
-- **Node.js:** Versão 18 ou superior.
+- **Node.js:** Versão 24 ou superior.
 - **Docker & Docker Compose** (ou um servidor Redis local rodando na porta 6379).
 
 ---
@@ -177,7 +191,7 @@ Abra o diretório `backend` no **IntelliJ IDEA** (ou via terminal) e execute:
 
 ```bash
 cd backend
-mvn spring-boot:run
+.\mvnw.cmd spring-boot:run
 ```
 
 A API REST estará disponível em: `http://localhost:8080`
@@ -193,7 +207,7 @@ Abra um novo terminal no diretório `frontend`:
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
 
@@ -201,20 +215,20 @@ Acesse a aplicação no navegador em: **`http://localhost:3000`**
 
 ---
 
-## 🧪 Executando os Testes Automatizados
+## 🧪 Testes Automatizados — Execução e Validação Pendentes
 
-### Testes do Backend (JUnit 5 + Mockito)
+Os comandos abaixo permitem executar os testes automatizados existentes. A validação final ainda faz parte do trabalho da Sprint 3: execute as suítes no ambiente atualizado, amplie a cobertura necessária, registre os resultados reais e corrija eventuais falhas. Este README não presume que os testes estejam aprovados.
+
+### Backend (JUnit + Mockito)
 
 Para rodar a suíte de testes de controller, service e queima atômica:
 
 ```bash
 cd backend
-mvn test
+.\mvnw.cmd test
 ```
 
-> Resultado esperado: **6/6 testes aprovados (`BUILD SUCCESS`)**, cobrindo criação com TTL, queima atômica via `GETDEL` e rejeição em segunda leitura (404 Not Found).
-
-### Testes do Frontend (Web Crypto API)
+### Frontend (Web Crypto API)
 
 Para validar a conformidade da cifragem e decifragem AES-256-GCM local:
 
@@ -222,8 +236,6 @@ Para validar a conformidade da cifragem e decifragem AES-256-GCM local:
 cd frontend
 npm test
 ```
-
-> Resultado esperado: **2/2 testes aprovados**, garantindo roundtrip de dados sensíveis e rejeição de adulterações de bytes via authentication tag.
 
 ---
 

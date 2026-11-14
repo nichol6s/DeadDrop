@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class DeadDropApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(DeadDropApplication.class, args);
-    }
+
+	public static void main(String[] args) {
+		SpringApplication.run(DeadDropApplication.class, args);
+	}
+
 }
