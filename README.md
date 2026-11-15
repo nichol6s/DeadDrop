@@ -244,12 +244,6 @@ npm test
 Este projeto foi desenvolvido como parte integrante do **Módulo 6** do curso de **Engenharia de Software** do **Centro Universitário ENIAC**.
 
 - **Disciplina:** Projeto Integrador — _Distributed and Secure Solutions_
-- **Professor Avaliador:** Prof. Lucio Luzetti Criado
 - **Aluno:** Nicholas Santos Pereira — RA: `269722025`
 - **Semestre:** 2º Semestre / 2026
 
----
-
-## 📄 Licença
-
-Distribuído sob a licença **MIT**. Consulte `LICENSE` para mais informações.
