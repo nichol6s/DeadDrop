@@ -2,7 +2,7 @@
 
 > **Plataforma Distribuída de Compartilhamento Seguro e Efêmero de Informações Sensíveis baseada em Arquitetura Zero-Knowledge e Burn-After-Reading.**
 >
-> **Status: em andamento.** A Sprint 2 documenta a arquitetura e o protótipo em desenvolvimento. Ainda há ajustes e integração a concluir, testes a executar e resultados a registrar na Sprint 3. O projeto não está finalizado nem validado para entrega.
+> **Status: concluído.** O projeto acadêmico foi finalizado na Sprint 3, com frontend, API e Redis integrados, testes e fluxo ponta a ponta validados, relatório final elaborado e vídeo de demonstração gravado.
 
 [![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -26,7 +26,7 @@
 
 No ambiente corporativo e em equipes de engenharia de software, é frequente a necessidade de compartilhar credenciais temporárias, chaves de API, variáveis de ambiente (`.env`) ou certificados digitais. Frequentemente, esses dados são enviados por canais persistentes (Slack, Microsoft Teams, WhatsApp ou e-mail), onde permanecem indelevelmente registrados no histórico, vulneráveis a vazamentos e em desacordo com a **LGPD** (_Lei Geral de Proteção de Dados_).
 
-O **DeadDrop** está sendo desenvolvido para tratar esse problema por meio de uma abordagem minimalista:
+O **DeadDrop** foi desenvolvido para tratar esse problema por meio de uma abordagem minimalista:
 
 - **Zero-Knowledge (Servidor Cego):** O dado é cifrado no navegador do remetente com **AES-GCM de 256 bits** antes de qualquer transmissão. O servidor nunca tem acesso ao texto limpo e nem à chave de decifragem.
 - **Isolamento de Chaves pela RFC 3986:** A chave simétrica é inserida exclusivamente no fragmento da URL (`https://.../secret/{uuid}#chave`). Conforme a especificação padrão da web, navegadores **nunca** transmitem o fragmento `#` nas requisições HTTP.
@@ -215,16 +215,17 @@ Acesse a aplicação no navegador em: **`http://localhost:3000`**
 
 ---
 
-## 🧪 Testes Automatizados — Execução e Validação Pendentes
+## 🧪 Testes Automatizados e Validação
 
-Os comandos abaixo permitem executar os testes automatizados existentes. A validação final ainda faz parte do trabalho da Sprint 3: execute as suítes no ambiente atualizado, amplie a cobertura necessária, registre os resultados reais e corrija eventuais falhas. Este README não presume que os testes estejam aprovados.
+Na validação final da Sprint 3, foram aprovados 10 testes do backend com Redis real, 2 testes de criptografia do frontend e 10 verificações automatizadas do fluxo ponta a ponta. Também foram concluídos lint, verificação de tipos e build do frontend. Os cenários incluíram criação, recuperação, segunda tentativa de leitura, chave ausente, expiração e concorrência. Consulte o [guia de testes](docs/testing.md) para reproduzir as verificações.
 
 ### Backend (JUnit + Mockito)
 
-Para rodar a suíte de testes de controller, service e queima atômica:
+Com o Redis em execução, rode a suíte completa, incluindo os testes de integração de leitura única, expiração e concorrência:
 
 ```bash
 cd backend
+$env:RUN_REDIS_INTEGRATION_TESTS = "true"
 .\mvnw.cmd test
 ```
 
@@ -241,7 +242,7 @@ npm test
 
 ## 🎓 Contexto Acadêmico
 
-Este projeto é desenvolvido como parte integrante do **Módulo 6** do curso de **Engenharia de Software** do **Centro Universitário ENIAC**.
+Este projeto foi desenvolvido como parte integrante do **Módulo 6** do curso de **Engenharia de Software** do **Centro Universitário ENIAC**.
 
 - **Disciplina:** Projeto Integrador — _Distributed and Secure Solutions_
 - **Professor Avaliador:** Prof. Lucio Luzetti Criado
