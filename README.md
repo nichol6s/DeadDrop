@@ -1,8 +1,7 @@
 # 🔐 DeadDrop
 
 > **Plataforma Distribuída de Compartilhamento Seguro e Efêmero de Informações Sensíveis baseada em Arquitetura Zero-Knowledge e Burn-After-Reading.**
->
-> **Status: concluído.** O projeto acadêmico foi finalizado na Sprint 3, com frontend, API e Redis integrados, testes e fluxo ponta a ponta validados, relatório final elaborado e vídeo de demonstração gravado.
+
 
 [![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
